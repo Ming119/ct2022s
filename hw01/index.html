@@ -1,11 +1,46 @@
-<html>
-	<head></head>
-	<body> 
-		<h1> hw1 </h1>
-		<div> <img src="/hw01/tree.jpg"> </div>
-		<div> This is HW1 </div>
-	</body>
+<!DOCTYPE html>
 
+<html lang="en">
 
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="./style.css" rel="stylesheet" />
+	<title>108590050 HW1</title>
+</head>
+
+<body>
+	
+
+	<ul class="links">
+		<a href="https://drive.google.com/file/d/1ySLAzzatXzrwRLq7BwgTs0LCyc2CnLtl/view?usp=sharing">OTF</a>
+		<a href="https://colab.research.google.com/drive/1qoK2Vo7a06ZNBF2K9v5TvP3l638PzfGR?usp=sharing">Colab</a>
+		<a href="https://drive.google.com/file/d/1nIsRIxe9e7ElK0li177xHzrlUWtpyRlo/view?usp=sharing">TTF</a>
+	</ul>
+
+	<svg viewBox="0 0 300 162">
+		<filter id="mix">
+			<feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="5"/>
+			<feColorMatrix in="blur" mdoe="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 60 -36" />
+		</filter>
+
+		<g filter="url(#mix)">
+			<rect width="300" height="50" x="0" y="50" rx="25" fill="#7f7f7f" />
+			<circle cx="40" cy="75" fill="#7f7f7f" id="pop" />
+		</g>
+	</svg>
+</body>
+
+<script type="text/javascript">
+	const pop = document.querySelector("#pop");
+	document.querySelector(".links").addEventListener('mousemove', e => {
+		let offset = (e.clientX - e.currentTarget.getBoundingClientRect().left) / 7
+		
+		if (offset <= 40) offset = 40
+		if (offset >= 260) offset = 260
+
+		pop.setAttribute('cx', offset)
+	})
+</script>
 
 </html>
