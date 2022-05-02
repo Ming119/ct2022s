@@ -141,6 +141,7 @@
 		var openTypeFont = null;
 		var planeSelect = 0;
 		var codePoint = 0;
+		var currFont = 0;
 		/***/
 
 		/** create font svg function */
@@ -155,7 +156,7 @@
 			d3.select("#svg_image").html("");
 			d3.select("#svg_text").html("");
 
-			var str = String.fromCodePoint(codePoint);
+			var str = String.fromCodePoint(currFont);
 			var font = openTypeFont;
 			var glyph = font.stringToGlyphs(str)[0];
 
@@ -282,7 +283,9 @@
 						.attr("id", "tooltipClick");
 
 					d3.select(this).attr("fill", "orange");
-
+					
+					currFont = codePoint;
+					
 					create_font_svg();
 				})
 				.on("mouseover", function() {
