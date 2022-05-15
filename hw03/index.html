@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>108590050 HW3</title>
+    <link href="./style.css" rel="stylesheet" />
+    <style>
+        @import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap);
+    </style>
+</head>
+
+<body>
+    <div id=root>
+        <div id=container>
+            <div id=drag-tip>
+                <div>Drag your picture here</div>
+            </div>
+        </div>
+
+        <div id=svg-text>
+            <textarea id=svg-text-area readonly=readonly></textarea>
+        </div>
+
+        <div id=side-bar>
+            <div class=item id=score-btn></div>
+
+            <div class=item>
+                <button id=bg-switch class=my-btn>CloseBG</button>
+            </div>
+            <div class=item>
+                <button id=export-svg class=my-btn>Export</button>
+            </div>
+            <div class=item>
+                <button id=clear-btn class=my-btn>Clear</button>
+            </div>
+            <div class=item>
+                <button id=update-txt class="my-btn activate">UpdateTXT</button>
+            </div>
+            <div class=item>
+                <button id=save-data class=my-btn>SaveData</button>
+            </div>
+        </div>
+    </div>
+
+    <script src=https://d3js.org/d3.v4.min.js></script>
+    <script src=https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js></script>
+        
+    <script>
+        const blockSize = 20;
+
+        d3.select(window).on("load", () => {
+            function a() {
+                s.selectAll("*").remove();
+                
+                s.selectAll("rect")
+                    .data(c)
+                    .enter()
+                    .append("rect")
+                    .attr("transform", (t, e) => {
+                        return "translate(" + e % n * blockSize + "," + blockSize * Math.floor(e / n) + ")"
+                    })
+                    .attr("stroke", "black")
+                    .attr("stroke-width", ".1px")
+                    .attr("fill", (t) => {
+                        return t ? "black" : "white"
+                    })
+                    .attr("width", blockSize)
+                    .attr("height", blockSize)
+                    .on("contextmenu", (t, e) => {
+                        d3.event.preventDefault()
+                    })
+                    .on("mousedown", function(t, e) {
+                        if (d3.event.button == 0) {
+                            isWriteing = true;
+                            d3.select(this).attr("fill", "black");
+                            c[e] = 1;
+                            d && f()
+                        } 
+                        
+                        if (d3.event.button == 2) {
+                            isCleaning = true;
+                            d3.select(this).attr("fill","white");
+                            c[e] = 0;
+                            d && f()
+                        }
+                    })
+                    .on("mousemove", function(t, e) {
+                        if (isWriteing) {
+                            d3.select(this).attr("fill", "black");
+                            c[e] = 1;
+                            d && f();
+                        }
+
+                        if (isCleaning) {
+                            d3.select(this).attr("fill", "white");
+                            c[e] = 0;
+                            d && f();
+                        }
+                    })
+                    .on("mouseup", (t, e) => {
+                        if (d3.event.button == 0)
+                            isWriteing = false;
+
+                        if (d3.event.button == 2)
+                            isCleaning = false;
+                    });
+
+                    l = s.append("g").attr("style", "opacity: 0.3;pointer-events: none;").attr("display", e ? "" : "none")
+            }
+
+            function r(t, e) {
+                var n = new FileReader;
+
+                n.onload = () => {
+                    l.selectAll("image").remove();
+                    
+                    l.append("image")
+                        .attr("href", n.result)
+                        .attr("width", "100%")
+                        .attr("height", "100%")
+                        .attr("x", 0)
+                        .attr("y", 0);
+                        
+                        typeof e == "function" && e();
+                        d && f();
+                };
+
+                n.readAsDataURL(t)
+            }
+
+            var l;
+            var o = d3.select("#container");
+            var t = d3.select("#svg-text-area");
+            var n = (o.node().getBoundingClientRect().width, 46);
+            var d = true;
+            var i = null;
+            var e = true;
+            var c = new Array(n * n).fill(0);
+
+            var s = o.append("svg")
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .attr("viewBox", "0 0 920 920")
+                .attr("xmlns", "http://www.w3.org/2000/svg");
+
+            f = function () {
+                t.html("");
+                t.html(o.html()
+                    .replace(/\<div(.*)?\<\/div>\<\/div\>/, "")
+                    .replace(/href\=\"data\:image\/(.*)?\"/, 'href="data:image...."')
+                    .trim()
+                );
+            };
+
+            var isWriteing = false;
+            var isCleaning = false;
+                
+            var v = (a(), o.on("dragenter", () => {
+                    d3.event.preventDefault();
+                    d3.select("#drag-tip").classed("dragged", true);
+                })
+                .on("dragover", () => { d3.event.preventDefault(); })
+                .on("drop", function () {
+                    d3.event.preventDefault();
+                    d3.select("#drag-tip").classed("dragged", false);
+                
+                    var t, e, n = d3.event.dataTransfer.files[0];
+                
+                    return ("dat" == n.name.split(".").slice(-1)[0]) ? (
+                        t = n,
+                        (e = new FileReader).onload = () => {
+                            var t = new Uint8Array(e.result);
+                            c = Array.from(t);
+                            a();
+                            r(i);
+                        },
+                        void e.readAsArrayBuffer(t)
+                    ) : n.type.startsWith("image/") ? (
+                        i = n,
+                        void r(n)
+                    ) : console.error("Not a valid image type")
+                }),
+
+                d3.select("#export-svg").on("click", function () {
+                    var t = d3.select(o.node().cloneNode(true));
+                    var e = (t.selectAll("div").remove(), t.html().trim());
+                    var n = t.append("a")
+                        .attr("download", "export.svg")
+                        .attr("href", URL.createObjectURL(new Blob([e], { type: "image/svg+xml" })));
+
+                    n.node().click();
+                    window.setTimeout(() => { URL.revokeObjectURL(n.attr("href")) }, 50);
+                }),
+                
+                d && f(), 
+                
+                d3.select("#bg-switch").on("click", function () {
+                    e = !e;
+
+                    if (e) {
+                        d3.select(this).text("CloseBG");
+                        l.attr("display", "");
+                    } else {
+                        d3.select(this).text("ShowBG");
+                        l.attr("display", "none");
+                    }
+
+                    d && f();
+                }), 
+                
+                d3.select("#clear-btn").on("click", () => {
+                    s.selectAll("rect").attr("fill", "white");
+                    c.fill(0);
+                }),
+
+                d3.select("#save-data").on("click", () => {
+                    var t = Uint8Array.from(c),
+                    e = d3.create("a")
+                        .attr("download", "data.dat")
+                        .attr("href", URL.createObjectURL(new Blob([t.buffer])))
+                        .node();
+                    
+                    e.click();
+                    window.setTimeout(() => { URL.revokeObjectURL(e.href) }, 50);
+                }),
+
+                d3.select("#update-txt").on("click", function () {
+                    d = !d;
+                    d3.select(this).classed("activate", d);
+                }),
+
+                new ScoreOutputer("108590050")
+            );
+
+            v.installCSS(() => {
+                v.addChild("繪製 46x46 格子", 4, false);
+                v.addChild("讀取圖片背景", 2, false);
+                v.addChild("輸出 SVG", 2, false);
+                v.addChild("SVG Text 即時同步", 1, false);
+                v.addChild("開關背景圖片功能", 1, false);
+                v.renderModal(document.body, "rgba(100,45,58,1)", "white", "15pt", "15px", "自我評分表");
+                v.installDownloadBtn();
+                v.renderBtn(d3.select("#score-btn").node(), "開啟自評表");
+            })
+        })
+    </script>
+</body>
+
+</html>
