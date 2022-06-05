@@ -1,0 +1,55 @@
+body {
+    background-color: #775f9e !important;
+    width: 95%;
+    margin: auto;
+}
+
+div {
+    overflow: auto;
+    font-size: 25px;
+}
+
+img {
+    width: 30%;
+    margin: 10px 10px 10px 5.55%;
+}
+
+.link {
+    color: black !important;
+    font-size: 16px;
+    margin: 10px;
+
+}
+
+.link:hover { color: #FB9966 !important;}
+
+#simple-baseline {
+    border: rgb(25, 199, 25) solid 3px;
+    margin: 10px;
+}
+
+#medium-baseline {
+    border: red solid 3px;
+    background-color: wheat;
+    height: 600px;
+    margin: 10px;
+    font-family: Medium; /*需對應下方 font-face Medium Baseline 字型的名稱*/
+}
+
+#strong-baseline {
+    border: pink solid 3px;
+    background-color: #FB9966;
+    height: 600px;
+    margin: 10px;
+    font-family: Strong; /*需對應下方 font-face Strong Baseline 字型的名稱*/
+}
+
+@font-face {
+    font-family: "Medium"; /*Medium Baseline 字型的名稱*/
+    src: url(./Medium.ttf);
+}
+
+@font-face {
+    font-family: "Strong"; /*Strong Baseline 字型的名稱*/
+    src: url(./Strong.ttf);
+}
