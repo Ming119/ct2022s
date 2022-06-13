@@ -1,0 +1,103 @@
+body {
+    background-color: #aab9ac !important;
+    width: 95%;
+    margin: auto;
+}
+
+.main {
+    font-family: 'Medium';
+    /* 改成自己的 Medium Baseline 字型檔 */
+    font-weight: bold;
+    font-size: 30px;
+}
+
+@font-face {
+    font-family: Medium;
+    src: url(./Medium.ttf);
+    /* Medium Baseline 字型檔 */
+}
+
+.poems {
+    font-family: 'Strong';
+    /* Strong Baseline 字型檔 */
+}
+
+@font-face {
+    font-family: Strong;
+    src: url(https://github.com/su8691/ct2022s/hw07/Strong.ttf);
+    /* Strong Baseline 字型檔 */
+}
+
+a:visited {
+    color: #0000EE;
+}
+
+a:hover {
+    color: #FF5151;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.column0 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 200px;
+}
+
+.column1 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 300px;
+}
+
+.column2 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 340px;
+}
+
+.column3 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 380px;
+}
+
+.column5 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 460px;
+}
+
+.column8 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 580px;
+}
+
+.column10 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 660px;
+}
+
+.column11 {
+    float: left;
+    width: 20%;
+    padding: 5px;
+    height: 700px;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
