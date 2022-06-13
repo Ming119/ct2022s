@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./style.css" rel="stylesheet" />
+	<title>108590050 HW5</title>
+</head>
+
+<body class=flex-center>
+	<div class="img-container flex-center">
+		<img src=./original.svg title=original>
+		<img src=./morph.svg title=morph>
+	</div>
+	<div class=sidebar>
+		<div class=item></div>
+		<div class=item>
+			<div class=my-btn id=show-fn>顯示變換函式</div>
+		</div>
+	</div>
+	<div class="fn-body-container flex-center">
+		<div id=fn-body><textarea id=fn-text readonly=readonly></textarea></div>
+	</div>
+
+	<script src=https://code.jquery.com/jquery-3.1.0.min.js> </script>
+	<script src=https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js> </script>
+	<script>
+		$(window).ready(function () {
+			var t = $(".fn-body-container").eq(0);
+			t.hide(), $(".img-container img").click(function () {
+				var n = document.createElement("a");
+				n.href = this.src, n.download = $(this).attr("title") + ".svg", n.target = "_blank", n.click()
+			}), $.get("./function-body.txt").done(function (n) {
+				$("#fn-text").html(n), $("#fn-text").click(function (n) {
+					n.stopPropagation(), this.select(), document.execCommand("copy")
+				}), $(".fn-body-container").eq(0).click(function () {
+					t.fadeOut(500)
+				}), $("#show-fn").click(function () {
+					t.fadeIn(500)
+				})
+			})
+		})
+	</script>
+
+	<script>
+		var so = new ScoreOutputer("108590050");
+		so.installCSS(function () {
+
+			so.addChild("顯示任一字原始圖像以及該字的變換圖像", 8, true);
+			so.addChild("顯示變換函式的 function body", 2, true);
+
+			so.renderModal(
+				document.body,
+				'rgba(100,45,58,1)',
+				'white',
+				'15pt',
+				'15px',
+				'自我評分表'
+			);
+
+			so.installDownloadBtn();
+
+			so.renderBtn(
+				$('.sidebar .item')[0],
+				"開啟自評表"
+			);
+		});
+	</script>
+</body>
+
+</html>
